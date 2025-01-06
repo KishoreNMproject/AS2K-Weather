@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.as2k.Weather.R
 import com.as2k.Weather.databinding.FragmentTransformBinding
-import com.as2k.Weather.databinding.ItemTransformBinding
+
 
 /**
  * Fragment that demonstrates a responsive layout pattern where the format of the content
@@ -24,28 +24,27 @@ import com.as2k.Weather.databinding.ItemTransformBinding
  */
 class TransformFragment : Fragment() {
 
-    private var _binding: FragmentTransformBinding? = null
+    private lateinit var dailyWeatherAdapter: DailyWeatherAdapter
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val transformViewModel = ViewModelProvider(this).get(TransformViewModel::class.java)
-        _binding = FragmentTransformBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        // Find RecyclerView
+        val recyclerView = view.findViewById<RecyclerView>(R.id.dailyWeatherRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        // Initialize with empty data
+        dailyWeatherAdapter = DailyWeatherAdapter(emptyList())
+        recyclerView.adapter = dailyWeatherAdapter
 
-
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        // Fetch data and update adapter
+        lifecycleScope.launch {
+            val response = weatherApi.getDailyWeather("London", 7, "your_api_key")
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    dailyWeatherAdapter.updateData(it.list)
+                }
+            }
+        }
     }
 }
