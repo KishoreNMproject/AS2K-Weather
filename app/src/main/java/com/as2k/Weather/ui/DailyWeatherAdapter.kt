@@ -1,5 +1,15 @@
 package com.as2k.Weather.ui
 
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.as2k.Weather.R
+import com.as2k.Weather.model.DayWeather
+import com.bumptech.glide.Glide
+
 class DailyWeatherAdapter(private var days: List<DayWeather>) :
     RecyclerView.Adapter<DailyWeatherAdapter.DailyWeatherViewHolder>() {
 

@@ -3,3 +3,4 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.jetbrains.kotlin.android) apply false
 }
+val Compile_SDK_version by extra("35.0.0")

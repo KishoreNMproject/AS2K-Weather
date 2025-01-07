@@ -1,19 +1,15 @@
 package com.as2k.Weather.ui.transform
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.as2k.Weather.R
-import com.as2k.Weather.databinding.FragmentTransformBinding
+import com.as2k.Weather.network.RetrofitClient.weatherApi
+import com.as2k.Weather.ui.DailyWeatherAdapter
+import kotlinx.coroutines.launch
 
 
 /**
@@ -38,13 +34,22 @@ class TransformFragment : Fragment() {
         recyclerView.adapter = dailyWeatherAdapter
 
         // Fetch data and update adapter
+       fetchDailyWeather()
+    }
+    private fun fetchDailyWeather(){
         lifecycleScope.launch {
-            val response = weatherApi.getDailyWeather("London", 7, "your_api_key")
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    dailyWeatherAdapter.updateData(it.list)
-                }
+           try{
+               val response = weatherApi.getDailyWeather("Chennai",7,"3ba4db5e39eeaf11da6e00d62ecbc034")
+               if (response.isSuccessful){
+                   response.body?.let {
+                       dailyWeatherAdapter.updateData(it.list)
+                   }
+               }
+            } catch (e: Exception){
+                //Handle error
+                e.printStackTrace()
             }
         }
     }
 }
+

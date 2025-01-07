@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_transform">
+
+    <fragment
+        android:id="@+id/nav_transform"
+        android:name="com.as2k.Weather.ui.transform.TransformFragment"
+        android:label="Daily"
+        tools:layout="@layout/fragment_transform" >
+        <action
+            android:id="@+id/action_firstFragment_to_secondFragment"
+            app:destination="@id/nav_reflow" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_reflow"
+        android:name="com.as2k.Weather.ui.reflow.ReflowFragment"
+        android:label="Maps"
+        tools:layout="@layout/fragment_reflow" />
+    <action
+        android:id="@+id/action_firstFragment_to_secondFragment"
+        app:destination="@id/nav_slideshow" />
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.as2k.Weather.ui.slideshow.SlideshowFragment"
+        android:label="About_us"
+        tools:layout="@layout/fragment_slideshow" />
+</navigation>
